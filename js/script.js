@@ -1,22 +1,71 @@
-/*Introduce un número del 1 al 3 en el campo de entrada. NUMERO ALEATORIO
-crear el contador de 5sec para Iniciar juego
-evaluar el numero introducido.
-crear boton restar.
-Crear promesa resuelta o reject. con el resultado
-Se mostrará un mensaje indicando si has salvado el mundo o si la bomba ha estallado.*/
+//Introduce un número del 1 al 3 en el campo de entrada. NUMERO ALEATORIO
+//crear el contador de 5sec para Iniciar juego
+//evaluar el numero introducido.
+//crear boton restar. o restaurar pag.
+//Crear promesa resuelta o reject. con el resultado
+//Se mostrará un mensaje indicando si has salvado el mundo o si la bomba ha estallado.
 
+
+const usertInput = document.getElementById('userInput')
+const countdown = document.getElementById('countdown')
+const result = document.getElementById('result')
+const restart = document.getElementById('restart')
+
+let numberSelect = 0
+
+usertInput.addEventListener("change", () => {
+    numberSelect = parseInt(userInput.value)
+})
+
+function iniciarContador () {
+    let segundos = 5;
+    setTimeout(() => {
+        if(segundos >= 0) {
+            countdown.innerText = segundos
+        }
+        segundos--
+    }, 1000)
+}
+
+const getPromise = () => {
+    const response = new Promise (resolve => {
+        setTimeout(() => {
+            const randomNumber = Math.floor(Math.random() *3) + 1
+            win = `
+                <h2>¡Has salvado el mundo👑!</h2>
+                <p> Tu número ${numberSelect} es igual al número ${randomNumber}</p>
+                `,
+                lose = `
+                <h2>¡Has destruido al mundo💣!</h2>
+                <p> Tu número ${numberSelect} es igual al número ${randomNumber}</p>
+                `
+                numberSelect === randomNumber ? resolve(win) : resolve(lose)
+        },6000)
+    })
+    .then(data => result.innerHTML = data)
+}
+
+restart.addEventListener("click", () => {
+    location.reload()
+})
+
+userInput.addEventListener("change", () => {
+    numberSelect = parseInt(usertInput.value)
+    getPromise()
+    iniciarContador()
+
+})
+
+/*
 const usertInput = document.getElementById('userInput')
 const countdownDiv = document.getElementById('countdown')
 const counterId = document.getElementById('counter')
 const resultDiv = document.getElementById('result')
 
-const restartButton = document.getElementById('restart')
-
 let intervalCounter
 
 let counter = 5;
 counterId.innerHTMl = counter
-
 
 const randomNum = () => {
     let min = 1;
@@ -48,9 +97,4 @@ const input = () => {
     },6000);
 }
 
-
-
-
-
-
-
+*/
